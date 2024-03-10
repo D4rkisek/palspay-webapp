@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Member's Database</title>
+</head>
+<body>
+    {% for item in all %}
+        <strong>{{ item.username }}</strong><br/>
+        <li>Email: {{ item.email }}</li>
+        <hr>
+    {% endfor %}
+</body>
+</html>
