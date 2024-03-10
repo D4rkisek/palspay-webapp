@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
 ]
 
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -52,7 +54,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
 ROOT_URLCONF = 'webapps2024.urls'
 
 TEMPLATES = [
