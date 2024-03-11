@@ -1,9 +1,71 @@
 {% extends 'base/base.html' %}
 {% load crispy_forms_filters %} {% block title %}Sign Up - PalsPay{% endblock %}
 {% load crispy_forms_tags %} {% block content %}
-    <form method="post">
-        {% csrf_token %}{{form|crispy}}
-        <p>Have an account? Login <a href="/login">Here</a>!</p>
-        <button type="submit" class="btn btn-success">Register</button>
+    <form id="registrationForm" method="POST" action="{% url 'register' %}" class="row g-3 needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="d-flex flex-column align-items-center">
+            <h2 class="mt-4">Sign Up for PalsPay</h2>
+            <div class="form-floating mb-3 has-validation">
+                <input type="text" class="form-control" id="username" placeholder="Username" required name="username">
+                <label for="username">Username</label>
+                <div class="invalid-tooltip">
+                    Please provide a valid username.
+                </div>
+            </div>
+            <div class="form-floating mb-3 has-validation">
+                <input type="text" class="form-control" id="firstName" placeholder="First name" required name="fname">
+                <label for="firstName">First name</label>
+                <div class="invalid-tooltip">
+                    Please provide a valid first name.
+                </div>
+            </div>
+            <div class="form-floating mb-3 has-validation">
+                <input type="text" class="form-control" id="lastName" placeholder="Last name" required name="lname">
+                <label for="lastName">Last name</label>
+                <div class="invalid-tooltip">
+                    Please provide a valid last name.
+                </div>
+            </div>
+            <div class="form-floating mb-3 has-validation">
+                <input type="text" class="form-control" id="email" placeholder="Email" required name="email">
+                <label for="email">Email</label>
+                <div class="invalid-tooltip">
+                    Please provide a valid Email.
+                </div>
+            </div>
+            <div class="form-floating mb-3 has-validation">
+                <input type="password" class="form-control" id="password" placeholder="Password" required name="pwd">
+                <label for="password">Password</label>
+                <div class="invalid-tooltip">
+                    Please provide a valid Password.
+                </div>
+            </div>
+            <div class="col-3 d-grid">
+                <button class="btn btn-outline-secondary rounded-pill" type="submit" style="padding: 8px 40px; font-size: 20px;">Sign Up</button>
+            </div>
+        </div>
     </form>
+
+    <script>
+        (function () {
+            'use strict'
+            var form = document.getElementById('registrationForm');
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })();
+    </script>
+
+    <style>
+        /* Adjusted to remove specific ID style that's no longer needed */
+        .form-control {
+            width: 523px;
+            font-size: 17px;
+        }
+    </style>
+
 {% endblock %}

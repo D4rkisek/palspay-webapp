@@ -18,7 +18,7 @@
         <div>
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="/home">Home</a>
+              <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/create-post">Post</a>
@@ -41,6 +41,14 @@
         </div>
       </div>
     </nav>
+    
+    
+    {% if messages %}
+         {% for message in messages %}
+         	{{ message }}
+         {% endfor %}
+    {% endif %}
+    
     <div class="container">{% block content %} {% endblock %}</div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
