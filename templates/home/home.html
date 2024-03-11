@@ -1,7 +1,7 @@
 {% extends 'base/base.html' %}
-{% load crispy_forms_filters %} {% block title %}Sign Up - PalsPay{% endblock %}
+{% load crispy_forms_filters %} {% block title %}Home - PalsPay{% endblock %}
 {% load crispy_forms_tags %} {% block content %}
-    <form method="post">
+    <form method="post" action="/register/">
         {% csrf_token %}{{form|crispy}}
         <p>Have an account? Login <a href="/login">Here</a>!</p>
         <button type="submit" class="btn btn-success">Register</button>
