@@ -1,7 +1,9 @@
 from django import forms
 from .models import Member
 
+
 class MemberForm(forms.ModelForm):
     class Meta:
         model = Member
-        fields = ['username','fname','lname','email','pwd']
+        fields = ['username', 'fname', 'lname', 'email', 'pwd']
+
