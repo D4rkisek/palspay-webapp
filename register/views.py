@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from .forms import MemberForm
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 
 
-def register(request):
+def register_user(request):
     # If user submits the form on the website
     if request.method == "POST":
         form = MemberForm(request.POST or None)
@@ -16,5 +17,5 @@ def register(request):
     return render(request, 'register/register.html', {})
 
 
-def login(request):
+def login_user(request):
     return render(request, 'register/login.html', {})
