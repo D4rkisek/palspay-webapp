@@ -1,20 +1,44 @@
 from django.shortcuts import render, redirect
-from .forms import MemberForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 
 
 def register_user(request):
-    # If user submits the form on the website
     if request.method == "POST":
-        form = MemberForm(request.POST or None)
-        if form.is_valid():
-            # Save the submitted data into our db
-            form.save()
-            messages.success(request, 'You have successfully registered!')
-            return redirect('login-user')
+        # Extracting form data
+        username = request.POST['username']
+        first_name = request.POST['fname']
+        last_name = request.POST['lname']
+        email = request.POST['email']
+        password = request.POST['pwd']
 
-    return render(request, 'register/register.html', {})
+        # Checking if the username or email already exists
+        if User.objects.filter(username=username).exists():
+            messages.error(request, 'Username already exists')
+            return redirect('register-user')
+        elif User.objects.filter(email=email).exists():
+            messages.error(request, 'Email already exists')
+            return redirect('register-user')
+
+        # Creating the user
+        user = User.objects.create(
+            username=username,
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            password=make_password(password)  # Hashes the password
+        )
+        user.save()
+
+        # Optionally, log the user in after registration
+        # login(request, user)
+
+        messages.success(request, 'You have successfully registered!')
+        return redirect('login-user')
+
+    return render(request, 'register/register.html')
 
 
 def login_user(request):

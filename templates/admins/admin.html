@@ -3,10 +3,10 @@
 {% block title %}Member's Database - PalsPay{% endblock %}
 
 {% block content %}
-    {% for item in all %}
-        <strong>{{ item.username }}</strong><br/>
-        <li>Email: {{ item.email }}</li>
-        <li>Password: {{ item.pwd }}</li>
-        <hr>
-    {% endfor %}
+    <h1>All Members</h1>
+    <ul>
+        {% for member in all_members %}
+            <li>{{ member.username }} - {{ member.email }}</li>
+        {% endfor %}
+    </ul>
 {% endblock %}

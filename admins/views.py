@@ -1,8 +1,7 @@
 from django.shortcuts import render
-from register.models import Member
+from django.contrib.auth import get_user_model
 
 
-def admin(request):
-    all_members = Member.objects.all
-    return render(request, 'admins/admin.html', {'all': all_members})
-
+def admin_view(request):
+    all_members = get_user_model().objects.all()
+    return render(request, 'admins/admin.html', {'all_members': all_members})
