@@ -1,9 +1,58 @@
 {% extends 'base/base.html' %}
 {% load crispy_forms_filters %} {% block title %}Home - PalsPay{% endblock %}
-{% load crispy_forms_tags %} {% block content %}
-    <form method="POST" action="/register-user/">
+{% load crispy_forms_tags %} {% block content %}{% load static %}
+    <!--<form method="POST" action="/register-user/">
         {% csrf_token %}{{form|crispy}}
         <p>Have an account? Login <a href="/login-user/">Here</a>!</p>
         <button type="submit" class="btn btn-success">Register</button>
-    </form>
+    </form>-->
+
+
+    <link rel="stylesheet" type="text/css" href="{% static '/css/features.css' %}" >
+    <body>
+    <div class="container px-4 py-5" id="custom-cards">
+        <h2 class="pb-2 border-bottom">What we offer:</h2>
+
+        <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+            <div class="col">
+                <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('../../static/images/image_cables.jpg');">
+                    <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                        <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Blazingly Fast Money Transfer</h2>
+                        <ul class="d-flex list-unstyled mt-auto">
+                            <li class="me-auto">
+                                <img width="44" height="44" src="https://img.icons8.com/3d-fluency/94/cloud-development.png" alt="cloud-development"/>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('../../static/images/image_security.jpg');">
+                    <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                        <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Highly Secure</h2>
+                        <ul class="d-flex list-unstyled mt-auto">
+                            <li class="me-auto">
+                                <img width="44" height="44" src="https://img.icons8.com/3d-fluency/94/cloud-development.png" alt="cloud-development"/>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('../../static/images/image_stocks.jpg');">
+                    <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
+                        <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">No Conversion Fee</h2>
+                        <ul class="d-flex list-unstyled mt-auto">
+                            <li class="me-auto">
+                                <img width="44" height="44" src="https://img.icons8.com/3d-fluency/94/cloud-development.png" alt="cloud-development"/>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
 {% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base/base.html" %}
+
+{% block title %}Member's Database - PalsPay{% endblock %}
+
+{% block content %}
+    <h1>All Members</h1>
+    <ul>
+        {% for member in all_members %}
+            <li>{{ member.username }} - {{ member.email }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

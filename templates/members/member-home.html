@@ -3,9 +3,8 @@
 {% block title %}Welcome to Member's Home Page - PalsPay{% endblock %}
 
 {% block content %}
-    {% for item in all %}
-        <strong>{{ item.username }}</strong><br/>
-        <li>Email: {{ item.email }}</li>
-        <hr>
-    {% endfor %}
+
+    <h1>Welcome, {{ user.username }}</h1>
+    <p>Account Balance: {{ account_balance }} {{ account_currency }}</p>
+    <p>Email: {{ user.email }}</p>
 {% endblock %}

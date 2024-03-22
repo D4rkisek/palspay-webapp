@@ -5,7 +5,7 @@
 {% load crispy_forms_tags %} {% block content %}
     <form method="post">
         {% csrf_token %}{{form|crispy}}
-        <p>Don't have an account? Create one <a href="/register-user/">Here</a>!</p>
+        <p>Don't have an account? Create one <a href="/registeruser/">Here</a>!</p>
     </form>
 
     <form id="loginForm" method="POST" action="{% url 'login-user' %}" class="row g-3 needs-validation" novalidate>
@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="form-floating mb-3 has-validation">
-            <input type="password" class="form-control" id="password" placeholder="Password" required name="pwd">
+            <input type="password" class="form-control" id="password" placeholder="" required name="pwd">
             <label for="password">Password</label>
             <div class="invalid-tooltip">
                 Please provide a valid Password.
@@ -47,7 +47,6 @@
     </script>
 
     <style>
-        /* Adjusted to remove specific ID style that's no longer needed */
         .form-control {
             width: 523px;
             font-size: 17px;
