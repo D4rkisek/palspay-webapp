@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
+from .models import Account
 
 
 def register_user(request):
@@ -32,8 +33,8 @@ def register_user(request):
         )
         user.save()
 
-        # Optionally, log the user in after registration
-        # login(request, user)
+        # Creating an account for the user
+        Account.objects.create(user=user)
 
         messages.success(request, 'You have successfully registered!')
         return redirect('login-user')
@@ -49,7 +50,7 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('home-page')
+            return redirect('members-home-page')
         else:
             messages.success(request, "There was an error, please try again.")
             return redirect('login-user')
