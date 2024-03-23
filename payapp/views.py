@@ -4,7 +4,6 @@ from django.contrib import messages
 from register.models import Account, Transaction
 from .forms import TransferMoneyForm
 from django.db import transaction as db_transaction
-from django.core.exceptions import ObjectDoesNotExist
 
 
 @login_required
@@ -52,3 +51,8 @@ def transfer_money(request):
         form = TransferMoneyForm()
 
     return render(request, 'members/transfer-money.html', {'form': form})
+
+
+@login_required
+def request_money(request):
+    pass

@@ -1,0 +1,14 @@
+{% extends "base/base.html" %}
+
+{% block title %}Transfer Money - PalsPay{% endblock %}
+
+{% block content %}
+    <p>Account Balance: {{ account_balance }} {{ account_currency }}</p>
+    <h2>Transfer Money</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Send Money</button>
+    </form>
+{% endblock %}
+

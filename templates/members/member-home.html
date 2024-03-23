@@ -7,6 +7,11 @@
     <h1>Welcome, {{ user.username }}</h1>
     <p>Account Balance: {{ account_balance }} {{ account_currency }}</p>
     <p>Email: {{ user.email }}</p>
-    <a href="{% url 'transfer-money' %}">View My Transactions</a>
+    <p>
+        <a href="{% url 'transfer-money' %}">Send Money</a>
+    </p>
+    <p>
+        <a href="{% url 'request-money' %}">Request Money</a>
+    </p>
 
 {% endblock %}
