@@ -1,7 +1,15 @@
 from django.urls import path, include
-from . import views
+
+from payapp.views import transfer_money, request_money, respond_to_request
+from .views import member_view, manage_requests
+
 
 urlpatterns = [
-    path('member/', views.member_view, name='members-home-page'),
+    path('member/', member_view, name='members-home-page'),
     #path('<str:username>/transactions/', views.member_transactions, name='user-transactions'),
+    path('transfer/', transfer_money, name='transfer-money'),
+    path('request/', request_money, name='request-money'),
+    path('managerequests/', respond_to_request, name='manage-requests'),
+    #path('viewrequests/', view_request, name='view-requests'),
+    #path('respond-to-request/<int:money_request_id>/<str:response>/', respond_to_request, name='respond_to_request'),
 ]

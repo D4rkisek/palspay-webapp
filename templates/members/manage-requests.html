@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+{% block content %}
+    <h2>Pending Money Requests</h2>
+    <ul>
+        {% for request in pending_requests %}
+            <form action="{% url 'manage-requests' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="money_request_id" value="{{ request.id }}">
+                <button type="submit" name="response" value="Accept">Accept</button>
+                <button type="submit" name="response" value="Reject">Reject</button>
+            </form>
+        {% endfor %}
+    </ul>
+{% endblock %}
