@@ -93,7 +93,7 @@ def respond_to_request(request):
 
                     # Check if sender has sufficient balance
                     if sender_account.balance < money_request.amount:
-                        messages.error(request, 'Sender has insufficient funds.')
+                        messages.error(request, 'Your account has insufficient funds.')
                         return redirect('manage-requests')
 
                     # Perform transaction
@@ -128,10 +128,9 @@ def respond_to_request(request):
                 return redirect('manage-requests')
 
         elif response_action == 'Reject':
-            # Just mark the request as responded without transferring funds
-            money_request.date_responded = timezone.now()
-            money_request.save()
+            money_request.delete()
             messages.info(request, 'Request rejected.')
+            return redirect('manage-requests')
 
     # Handle GET requests
     pending_requests = MoneyRequest.objects.filter(recipient__user=request.user, is_accepted=False)
