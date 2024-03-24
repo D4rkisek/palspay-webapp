@@ -12,9 +12,3 @@ def admin_view(request):
     all_transactions = Transaction.objects.all()
 
     return render(request, 'admins/admin.html', {'all_members': all_members, 'all_transactions': all_transactions})
-
-
-# TODO
-def admin_view_transaction(request):
-    all_members = get_user_model().objects.all()
-    return render(request, 'admins/admin-transactions.html', {'all_members': all_members})

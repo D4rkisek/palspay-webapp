@@ -10,10 +10,6 @@ class Account(models.Model):
                                 default='GBP')
 
 
-#    def __str__(self):
-#        return f"{self.user.username}'s account"
-
-
 # Early stage of the transaction model
 class Transaction(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='transactions')

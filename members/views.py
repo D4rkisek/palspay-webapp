@@ -1,19 +1,21 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from register.models import Account, MoneyRequest
+from register.models import Account, Transaction, MoneyRequest
 from django.contrib import messages
 
 
 @login_required
 def member_view(request):
-    # Retrieve the current user's account
+    # Retrieve the current user's data
     user_account = Account.objects.get(user=request.user)
+    user_history_transactions = Transaction.objects.filter(account=user_account)
 
     # Pass the account details to the template context
     context = {
         'user': request.user,
         'account_balance': user_account.balance,
         'account_currency': user_account.currency,
+        'transactions': user_history_transactions,
     }
     return render(request, 'members/member-home.html', context)
 
