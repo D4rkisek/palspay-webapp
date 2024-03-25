@@ -10,6 +10,16 @@ class Account(models.Model):
                                 default='GBP')
 
 
+# New Staff model
+class Staff(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='staff')
+    staff_id = models.CharField(max_length=10, unique=True)
+    department = models.CharField(max_length=100)
+
+#    def __str__(self):
+#        return f"{self.user.username} - {self.department}"
+
+
 # Early stage of the transaction model
 class Transaction(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='transactions')
