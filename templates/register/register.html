@@ -1,7 +1,7 @@
 {% extends 'base/base.html' %}
 {% load crispy_forms_filters %} {% block title %}Sign Up - PalsPay{% endblock %}
 {% load crispy_forms_tags %} {% block content %}
-    <form id="registrationForm" method="POST" action="{% url "register-user" %}" class="row g-3 needs-validation" novalidate>
+    <form id="registrationForm" method="POST" action="{% url "register-customer" %}" class="row g-3 needs-validation" novalidate>
         {% csrf_token %}
         <div class="d-flex flex-column align-items-center">
             <h2 class="mt-4">Sign Up for PalsPay</h2>

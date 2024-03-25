@@ -2,10 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User, Group
-from .models import Account
+from .models import Customer
 
 
-def register_user(request):
+def register_customer(request):
     if request.method == "POST":
         # Extracting form data
         username = request.POST['username']
@@ -17,10 +17,10 @@ def register_user(request):
         # Checking if the username or email already exists
         if User.objects.filter(username=username).exists():
             messages.error(request, 'Username already exists')
-            return redirect('register-user')
+            return redirect('register-customer')
         elif User.objects.filter(email=email).exists():
             messages.error(request, 'Email already exists')
-            return redirect('register-user')
+            return redirect('register-customer')
 
         # Creating the user
         user = User.objects.create_user(    # Use 'create.user()' to hash the password
@@ -38,7 +38,7 @@ def register_user(request):
         customers_group.user_set.add(user)
 
         # Creating an account for the user
-        Account.objects.create(user=user)
+        Customer.objects.create(user=user)
 
         messages.success(request, 'You have successfully registered!')
         return redirect('login-user')

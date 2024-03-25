@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from register.models import Account, Transaction, MoneyRequest
+from register.models import Customer, Transaction, MoneyRequest
 from .forms import TransferMoneyForm
 from django.db import transaction as db_transaction
 from django.utils import timezone
@@ -18,15 +18,15 @@ def transfer_money(request):
                 with db_transaction.atomic():
                     # Attempt to fetch sender's account safely
                     try:
-                        sender_account = Account.objects.get(user=request.user)
-                    except Account.DoesNotExist:
+                        sender_account = Customer.objects.get(user=request.user)
+                    except Customer.DoesNotExist:
                         messages.error(request, 'Sender account not found.')
                         return redirect('transfer-money')
 
                     # Attempt to fetch recipient's account safely
                     try:
-                        recipient_account = Account.objects.get(user__username=recipient_username)
-                    except Account.DoesNotExist:
+                        recipient_account = Customer.objects.get(user__username=recipient_username)
+                    except Customer.DoesNotExist:
                         messages.error(request, 'Recipient account not found.')
                         return redirect('transfer-money')
 
@@ -64,12 +64,12 @@ def request_money(request):
             recipient_username = form.cleaned_data['username']
             amount = form.cleaned_data['amount']
             try:
-                sender_account = Account.objects.get(user=request.user)
-                recipient_account = Account.objects.get(user__username=recipient_username)
+                sender_account = Customer.objects.get(user=request.user)
+                recipient_account = Customer.objects.get(user__username=recipient_username)
                 MoneyRequest.objects.create(sender=sender_account, recipient=recipient_account, amount=amount)
                 messages.success(request, 'Request sent successfully.')
                 return redirect('request-money')
-            except Account.DoesNotExist:
+            except Customer.DoesNotExist:
                 messages.error(request, 'Account not found.')
     else:
         form = TransferMoneyForm()
