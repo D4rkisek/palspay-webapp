@@ -132,6 +132,6 @@ def respond_to_request(request):
             messages.info(request, 'Request rejected.')
             return redirect('manage-requests')
 
-    # Handle GET requests
+    # Handle GET request
     pending_requests = MoneyRequest.objects.filter(recipient__user=request.user, is_accepted=False)
     return render(request, 'members/manage-requests.html', {'pending_requests': pending_requests})

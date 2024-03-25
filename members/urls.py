@@ -10,6 +10,5 @@ urlpatterns = [
     path('transfer/', transfer_money, name='transfer-money'),
     path('request/', request_money, name='request-money'),
     path('managerequests/', respond_to_request, name='manage-requests'),
-    #path('viewrequests/', view_request, name='view-requests'),
 
 ]

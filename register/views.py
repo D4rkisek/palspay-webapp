@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import User, Group
 from .models import Account
 
 
@@ -24,14 +23,19 @@ def register_user(request):
             return redirect('register-user')
 
         # Creating the user
-        user = User.objects.create(
+        user = User.objects.create_user(    # Use 'create.user()' to hash the password
             username=username,
             first_name=first_name,
             last_name=last_name,
             email=email,
-            password=make_password(password)  # Hashes the password
+            password=password
         )
         user.save()
+
+        # Fetching the "Customers" group
+        customers_group = Group.objects.get(name='Customers')
+        # Adding the user to the "Customers" group
+        customers_group.user_set.add(user)
 
         # Creating an account for the user
         Account.objects.create(user=user)
