@@ -12,10 +12,7 @@ class Account(models.Model):
 
 # New Staff model
 class Staff(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='staff')
-    staff_id = models.CharField(max_length=10, unique=True)
-    department = models.CharField(max_length=100)
-
+    user_admin = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='staff')
 #    def __str__(self):
 #        return f"{self.user.username} - {self.department}"
 
