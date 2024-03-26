@@ -5,7 +5,7 @@ from .views import member_view, manage_requests
 
 
 urlpatterns = [
-    path('member/', member_view, name='members-home-page'),
+    path('member/', member_view, name='members-homepage'),
     #path('<str:username>/transactions/', views.member_transactions, name='user-transactions'),
     path('transfer/', transfer_money, name='transfer-money'),
     path('request/', request_money, name='request-money'),

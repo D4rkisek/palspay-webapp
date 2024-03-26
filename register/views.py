@@ -54,9 +54,17 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('members-home-page')
+            # Check if the user is in the Staff group
+            if user.groups.filter(name='Staff').exists():
+                return redirect('staff-homepage')  # Redirect to staff home page
+            # Check if the user is in the Customers group
+            elif user.groups.filter(name='Customers').exists():
+                return redirect('members-homepage')  # Redirect to members (customers) home page
+            else:
+                # Handle users who are neither Staff nor Customers
+                return redirect('default-home-page')  # Redirect to a default home page
         else:
-            messages.success(request, "There was an error, please try again.")
+            messages.error(request, "There was an error, please try again.")
             return redirect('login-user')
 
     return render(request, 'register/login.html', {})
