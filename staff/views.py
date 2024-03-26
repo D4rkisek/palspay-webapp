@@ -13,17 +13,16 @@ def staff_view(request):
     if not request.user.groups.filter(name='Staff').exists():
         return HttpResponse("You are not authorized to view this page.")
 
-    # Get the staff group
-    staff_group = Group.objects.get(name='Staff')
-
     # View all members that are not in the 'Staff' group and not superusers
     # This excludes both staff members and superusers
-    all_members = get_user_model().objects.exclude(groups=staff_group).exclude(is_superuser=True).select_related('account').all()
+    all_customers = (get_user_model().objects
+                     .exclude(groups=Group.objects.get(name='Staff')).exclude(is_superuser=True).
+                     select_related('account').all())
 
     # View all transactions
     all_transactions = Transaction.objects.all()
 
-    return render(request, 'staff/staff.html', {'all_members': all_members, 'all_transactions': all_transactions})
+    return render(request, 'staff/staff.html', {'all_customers': all_customers, 'all_transactions': all_transactions})
 
 
 @login_required
@@ -41,9 +40,9 @@ def register_staff(request):
         password = request.POST['pwd']
 
         # Checking if the username already exists
-        if User.objects.filter(username=username).exists() or Staff.objects.filter(username=username).exists():
+        if User.objects.filter(username=username).exists():
             messages.error(request, 'Username already exists')
-            return redirect('register-customer')
+            return redirect('register-staff')
 
         # Creating the user
         user_admin = User.objects.create_user(    # Use 'create.user()' to hash the password
@@ -64,7 +63,6 @@ def register_staff(request):
         Staff.objects.create(user_admin=user_admin)
 
         messages.success(request, 'You have successfully registered a Staff Member!')
-        return redirect('login-user')
-
+        return redirect('register-staff')
 
     return render(request, 'staff/registerstaff.html', {})

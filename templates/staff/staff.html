@@ -3,10 +3,10 @@
 {% block title %}Member's Database - PalsPay{% endblock %}
 
 
-    <h1>All Members</h1>
+    <h1>All Customers</h1>
     <ul>
-        {% for member in all_members %}
-            <li>{{ member.username }} - {{ member.email }}</li>
+        {% for customer in all_customers %}
+            <li>{{ customer.username }} - {{ customer.email }}</li>
         {% endfor %}
     </ul>
 
@@ -14,14 +14,14 @@
 <main class="container">
     <!-- Members -->
     <div class="my-3 p-3 bg-body rounded shadow-sm">
-        <h6 class="border-bottom pb-2 mb-0">Members</h6>
-        {% for member in all_members %}
+        <h6 class="border-bottom pb-2 mb-0">Customers</h6>
+        {% for customer in all_customers %}
             <div class="d-flex text-body-secondary pt-3">
                 <p class="pb-3 mb-0 small lh-sm border-bottom">
                     <!-- Display member's username -->
-                    <strong class="d-block text-black">{{ member.username }}</strong>
+                    <strong class="d-block text-black">{{ customer.username }}</strong>
                     <!-- Access the balance and currency through the related account attribute -->
-                    Account Balance: {{ member.account.balance }} {{ member.account.currency }}
+                    Account Balance: {{ customer.account.balance }} {{ customer.account.currency }}
                 </p>
             </div>
         {% endfor %}
