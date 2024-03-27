@@ -17,7 +17,7 @@ def member_view(request):
         'account_currency': user_account.currency,
         'transactions': user_history_transactions,
     }
-    return render(request, 'members/member-home.html', context)
+    return render(request, 'customers/customer-home.html', context)
 
 
 @login_required
@@ -28,4 +28,4 @@ def manage_requests(request):
     except Customer.DoesNotExist:
         messages.error(request, "User account not found.")
         pending_requests = []
-    return render(request, 'members/manage-requests.html', {'pending_requests': pending_requests})
+    return render(request, 'customers/customer-requests.html', {'pending_requests': pending_requests})
