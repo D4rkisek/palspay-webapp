@@ -8,6 +8,7 @@ urlpatterns = [
     path('', views.home, name="home-page"),
     path('', include('staff.urls')),
     path('', include('register.urls')),
-    path('', include('members.urls')),
+    path('', include('customers.urls')),
     path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
+    path('conversion/', include('conversion.urls')),
 ]

@@ -23,7 +23,7 @@ def register_customer(request):
             return redirect('register-customer')
 
         # Creating the user
-        user = User.objects.create_user(    # Use 'create.user()' to hash the password
+        user = User.objects.create_user(  # Use 'create.user()' to hash the password
             username=username,
             first_name=first_name,
             last_name=last_name,
@@ -60,9 +60,6 @@ def login_user(request):
             # Check if the user is in the Customers group
             elif user.groups.filter(name='Customers').exists():
                 return redirect('members-homepage')  # Redirect to members (customers) home page
-            else:
-                # Handle users who are neither Staff nor Customers
-                return redirect('default-home-page')  # Redirect to a default home page
         else:
             messages.error(request, "There was an error, please try again.")
             return redirect('login-user')

@@ -44,7 +44,10 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     "staff.apps.AdminsConfig",
-    "members.apps.MembersConfig"
+    "customers.apps.MembersConfig",
+
+    'rest_framework',
+    "conversion.apps.ConversionConfig"
 ]
 
 MIDDLEWARE = [

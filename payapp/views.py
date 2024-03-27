@@ -53,7 +53,7 @@ def transfer_money(request):
     else:
         form = TransferMoneyForm()
 
-    return render(request, 'members/transfer-money.html', {'form': form})
+    return render(request, 'customers/transfer-money.html', {'form': form})
 
 
 @login_required
@@ -73,7 +73,7 @@ def request_money(request):
                 messages.error(request, 'Account not found.')
     else:
         form = TransferMoneyForm()
-    return render(request, 'members/request-money.html', {'form': form})
+    return render(request, 'customers/request-money.html', {'form': form})
 
 
 @login_required
@@ -134,4 +134,4 @@ def respond_to_request(request):
 
     # Handle GET request
     pending_requests = MoneyRequest.objects.filter(recipient__user=request.user, is_accepted=False)
-    return render(request, 'members/manage-requests.html', {'pending_requests': pending_requests})
+    return render(request, 'customers/customer-requests.html', {'pending_requests': pending_requests})
