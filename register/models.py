@@ -4,9 +4,14 @@ from django.db import models
 
 class Customer(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='account')
-    balance = models.DecimalField(max_digits=10, decimal_places=2, default=1000.00)
+    balance = models.DecimalField(max_digits=10, decimal_places=2)
     # Add currency field if supporting multiple currencies
-    currency = models.CharField(max_length=3, choices=[('GBP', 'Pounds'), ('USD', 'Dollars'), ('EUR', 'Euros')],
+    currency = models.CharField(max_length=3,
+                                choices=[
+                                    ('GBP', 'British Pound'),
+                                    ('USD', 'US Dollar'),
+                                    ('EUR', 'Euro'),
+                                ],
                                 default='GBP')
 
 

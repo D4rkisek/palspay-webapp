@@ -10,5 +10,5 @@ urlpatterns = [
     path('', include('register.urls')),
     path('', include('customers.urls')),
     path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
-    path('conversion/', include('conversion.urls')),
+    path('conversion/', include('conversion_api.urls')),
 ]

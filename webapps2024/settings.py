@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     "customers.apps.MembersConfig",
 
     'rest_framework',
-    "conversion.apps.ConversionConfig"
+    "conversion_api.apps.ConversionConfig"
 ]
 
 MIDDLEWARE = [
