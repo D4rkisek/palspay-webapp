@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -5,6 +7,7 @@ from register.models import Customer, Transaction, MoneyRequest
 from .forms import TransferMoneyForm
 from django.db import transaction as db_transaction
 from django.utils import timezone
+import requests
 
 
 @login_required
@@ -16,35 +19,42 @@ def transfer_money(request):
             amount = form.cleaned_data['amount']
             try:
                 with db_transaction.atomic():
-                    # Attempt to fetch sender's account safely
-                    try:
-                        sender_account = Customer.objects.get(user=request.user)
-                    except Customer.DoesNotExist:
-                        messages.error(request, 'Sender account not found.')
-                        return redirect('transfer-money')
-
-                    # Attempt to fetch recipient's account safely
-                    try:
-                        recipient_account = Customer.objects.get(user__username=recipient_username)
-                    except Customer.DoesNotExist:
-                        messages.error(request, 'Recipient account not found.')
-                        return redirect('transfer-money')
+                    # Fetch sender and recipient accounts
+                    sender_account = Customer.objects.get(user=request.user)
+                    recipient_account = Customer.objects.get(user__username=recipient_username)
 
                     if sender_account.balance < amount:
                         messages.error(request, 'Insufficient funds.')
                         return redirect('transfer-money')
 
-                    sender_account.balance -= amount
+                    # Convert the amount if currencies differ
+                    converted_amount = Decimal(amount)  # Ensure amount is a Decimal for consistency
+                    if sender_account.currency != recipient_account.currency:
+                        conversion_url = f"http://127.0.0.1:8000/conversion/{sender_account.currency}/{recipient_account.currency}/{amount}"
+                        response = requests.get(conversion_url)
+                        if response.status_code == 200:
+                            # Convert the API response to Decimal before arithmetic operations
+                            converted_amount = Decimal(response.json().get('converted_amount'))
+                        else:
+                            messages.error(request, 'Currency conversion failed.')
+                            return redirect('transfer-money')
+
+                    # Perform the transfer
+                    sender_account.balance -= Decimal(amount)  # Convert amount to Decimal
                     sender_account.save()
 
-                    recipient_account.balance += amount
+                    recipient_account.balance += converted_amount  # converted_amount is already a Decimal
                     recipient_account.save()
 
-                    # Log the transaction for both sender and recipient
-                    Transaction.objects.create(account=sender_account, amount=-amount, transaction_type='payment',
-                                               description=f"Sent to {recipient_username}")
-                    Transaction.objects.create(account=recipient_account, amount=amount, transaction_type='payment',
-                                               description=f"Received from {request.user.username}")
+                    # Log the transactions
+                    Transaction.objects.create(
+                        account=sender_account, amount=-Decimal(amount), transaction_type='payment',
+                        description=f"Sent to {recipient_username}"
+                    )
+                    Transaction.objects.create(
+                        account=recipient_account, amount=converted_amount, transaction_type='payment',
+                        description=f"Received from {request.user.username}"
+                    )
 
                     messages.success(request, 'Transfer successful.')
                     return redirect('transfer-money')
