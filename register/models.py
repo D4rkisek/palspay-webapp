@@ -5,7 +5,6 @@ from django.db import models
 class Customer(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='account')
     balance = models.DecimalField(max_digits=10, decimal_places=2)
-    # Add currency field if supporting multiple currencies
     currency = models.CharField(max_length=3,
                                 choices=[
                                     ('GBP', 'British Pound'),
@@ -18,8 +17,6 @@ class Customer(models.Model):
 # Staff model
 class Staff(models.Model):
     user_admin = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='staff')
-#    def __str__(self):
-#        return f"{self.user.username} - {self.department}"
 
 
 # Transaction log
@@ -39,6 +36,7 @@ class MoneyRequest(models.Model):
     sender = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='sent_requests')
     recipient = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='received_requests')
     amount = models.DecimalField(max_digits=10, decimal_places=2)
+    #currency = models.ForeignKey(Customer, on_delete=models.CASCADE,  related_name='currency')
     is_accepted = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
     date_responded = models.DateTimeField(null=True, blank=True)
