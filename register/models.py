@@ -23,7 +23,7 @@ class Staff(models.Model):
 class Transaction(models.Model):
     account = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='transactions')
     date = models.DateTimeField(auto_now_add=True)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.CharField(max_length=10)
     transaction_type = models.CharField(max_length=50)  # e.g., "deposit", "withdrawal", "payment"
     description = models.TextField()
 
@@ -36,7 +36,6 @@ class MoneyRequest(models.Model):
     sender = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='sent_requests')
     recipient = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='received_requests')
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    #currency = models.ForeignKey(Customer, on_delete=models.CASCADE,  related_name='currency')
     is_accepted = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
     date_responded = models.DateTimeField(null=True, blank=True)

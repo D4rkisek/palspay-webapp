@@ -116,18 +116,27 @@ def respond_to_request(request):
                     recipient_account = money_request.sender
                     sender_account = money_request.recipient
 
-                    converted_amount = money_request.amount
+                    current_currency_amount = money_request.amount
 
-                    if recipient_account.balance < converted_amount:
+                    if recipient_account.balance < current_currency_amount:
                         messages.error(request, 'Your account has insufficient funds.')
                         return redirect('manage-requests')
 
-                    recipient_account.balance -= converted_amount
+                    recipient_account.balance -= current_currency_amount
                     recipient_account.save()
+
+                    Transaction.objects.create(
+                        account=recipient_account,
+                        amount=f"{recipient_account.currency} -{current_currency_amount}",
+                        transaction_type='payment',
+                        description=f"Sent to {sender_account.user.username}"
+                    )
+
+                    converted_amount = money_request.amount
 
                     # Convert amount if necessary
                     if recipient_account.currency != sender_account.currency:
-                        conversion_url = f"http://127.0.0.1:8000/conversion/{sender_account.currency}/{recipient_account.currency}/{money_request.amount}"
+                        conversion_url = f"http://127.0.0.1:8000/conversion/{recipient_account.currency}/{sender_account.currency}/{money_request.amount}"
                         response = requests.get(conversion_url)
                         if response.status_code == 200:
                             converted_amount = Decimal(response.json().get('converted_amount'))
@@ -141,14 +150,8 @@ def respond_to_request(request):
                     sender_account.save()
 
                     Transaction.objects.create(
-                        account=recipient_account,
-                        amount=-converted_amount,
-                        transaction_type='payment',
-                        description=f"Sent to {sender_account.user.username}"
-                    )
-                    Transaction.objects.create(
                         account=sender_account,
-                        amount=converted_amount,
+                        amount=f"{sender_account.currency} {converted_amount}",
                         transaction_type='payment',
                         description=f"Received from {recipient_account.user.username}"
                     )
@@ -167,5 +170,6 @@ def respond_to_request(request):
             messages.info(request, 'Request rejected.')
             return redirect('manage-requests')
 
+    # Handle GET request
     pending_requests = MoneyRequest.objects.filter(sender__user=request.user, is_accepted=False)
     return render(request, 'customers/customer-requests.html', {'pending_requests': pending_requests})

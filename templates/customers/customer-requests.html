@@ -9,7 +9,7 @@
                     <input type="hidden" name="money_request_id" value="{{ request.id }}">
                     <div>Sender: {{ request.sender.user.username }}</div>
                     <div>Recipient: {{ request.recipient.user.username }}</div>
-                    <div>Amount: £{{ request.amount }}</div>
+                    <div>Amount: {{ request.amount }}</div>
                     <div>Status: {% if request.is_accepted %}Accepted{% else %}Pending{% endif %}</div>
                     <div>Date Created: {{ request.date_created }}</div>
                     {% if request.date_responded %}

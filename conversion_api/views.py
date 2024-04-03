@@ -1,7 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.views import APIView
 
 # Hardcoded currency exchange rates
 EXCHANGE_RATES = {
@@ -10,12 +9,12 @@ EXCHANGE_RATES = {
         "GBP": 0.80,
     },
     "EUR": {
-        "USD": 1.08,
+        "USD": 1 / 0.93,
         "GBP": 0.86,
     },
     "GBP": {
-        "USD": 1.25,
-        "EUR": 1.16,
+        "USD": 1 / 0.80,
+        "EUR": 1 / 0.86,
     },
 }
 
