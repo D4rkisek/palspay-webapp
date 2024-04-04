@@ -2,6 +2,7 @@ from decimal import Decimal
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_protect
 from register.models import Customer, Transaction, MoneyRequest
 from .forms import TransferMoneyForm
 from django.db import transaction as db_transaction
@@ -9,6 +10,7 @@ from django.utils import timezone
 import requests
 
 
+@csrf_protect
 @login_required
 def transfer_money(request):
     if request.method == 'POST':
@@ -65,6 +67,7 @@ def transfer_money(request):
     return render(request, 'customers/transfer-money.html', {'form': form})
 
 
+@csrf_protect
 @login_required
 def request_money(request):
     if request.method == 'POST':
@@ -102,6 +105,7 @@ def request_money(request):
     return render(request, 'customers/request-money.html', {'form': form})
 
 
+@csrf_protect
 @login_required
 def respond_to_request(request):
     if request.method == 'POST':

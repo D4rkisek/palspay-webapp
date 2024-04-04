@@ -3,10 +3,13 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User, Group
+from django.views.decorators.csrf import csrf_protect
 from register.models import Staff, Transaction
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import make_password
 
 
+@csrf_protect
 @login_required
 def staff_view(request):
     # If the individual is not a staff member
@@ -20,11 +23,12 @@ def staff_view(request):
                      select_related('account').all())
 
     # View all transactions
-    all_transactions = Transaction.objects.all()
+    all_transactions = Transaction.objects.all().order_by('-date')
 
     return render(request, 'staff/staff.html', {'all_customers': all_customers, 'all_transactions': all_transactions})
 
 
+@csrf_protect
 @login_required
 def register_staff(request):
     # If the individual is not a staff member
@@ -45,14 +49,13 @@ def register_staff(request):
             return redirect('register-staff')
 
         # Creating the user
-        user_admin = User.objects.create_user(    # Use 'create.user()' to hash the password
+        user_admin = User.objects.create(
             username=username,
             first_name=first_name,
             last_name=last_name,
             email=email,
-            password=password
+            password=make_password(password)  # Hash the pwd
         )
-        user_admin.save()
 
         # Fetching the "Staff" group
         staff_group = Group.objects.get(name='Staff')

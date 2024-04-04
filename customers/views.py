@@ -8,7 +8,7 @@ from django.contrib import messages
 def member_view(request):
     # Retrieve the current user's data
     user_account = Customer.objects.get(user=request.user)
-    user_history_transactions = Transaction.objects.filter(account=user_account)
+    user_history_transactions = Transaction.objects.filter(account=user_account).order_by('-date')
 
     # Pass the account details to the template context
     context = {

@@ -2,42 +2,44 @@
 
 {% block title %}Member's Database - PalsPay{% endblock %}
 
-
-    <h1>All Customers</h1>
-    <ul>
-        {% for customer in all_customers %}
-            <li>{{ customer.username }} - {{ customer.email }}</li>
-        {% endfor %}
-    </ul>
-
 {% block content %}
+<p>Would you like to register a staff member? Create one <a href="/registerstaff/">Here</a>!</p>
+    {% csrf_token %}
+    <h1>Welcome to the Staff View</h1>
+    {% csrf_token %}
 <main class="container">
     <!-- Members -->
-    <div class="my-3 p-3 bg-body rounded shadow-sm">
+    <div class="my-3 p-3 bg-body rounded shadow-sm text-center">
         <h6 class="border-bottom pb-2 mb-0">Customers</h6>
         {% for customer in all_customers %}
-            <div class="d-flex text-body-secondary pt-3">
+            <div class="pt-3">
                 <p class="pb-3 mb-0 small lh-sm border-bottom">
                     <!-- Display member's username -->
-                    <strong class="d-block text-black">{{ customer.username }}</strong>
-                    <!-- Access the balance and currency through the related account attribute -->
+                    Customer's Username: {{ customer.username }}
+                    <br/>
+                    First Name: {{ customer.first_name}}
+                    <br/>
+                    Last Name: {{ customer.last_name }}
+                    <br/>
+                    Email: {{ customer.email }}
+                    <br/>
+                    <!-- Account Balance -->
                     Account Balance: {{ customer.account.balance }} {{ customer.account.currency }}
                 </p>
             </div>
         {% endfor %}
-        <small class="d-block text-end mt-3">
+        <small class="d-block mt-3">
             <a href="#">All updates</a>
         </small>
     </div>
     <!-- Transactions -->
-    <div class="my-3 p-3 bg-body rounded shadow-sm">
+    <div class="my-3 p-3 bg-body rounded shadow-sm text-center">
         <h6 class="border-bottom pb-2 mb-0">Transaction Ledger</h6>
         {% for transaction in all_transactions %}
-            <div class="d-flex text-body-secondary pt-3">
+            <div class="pt-3">
                 <p class="pb-3 mb-0 small lh-sm border-bottom">
-                    <!-- Display member's username -->
-                    <strong class="d-block text-black">{{ transaction.id }}</strong>
-                    <!-- Access the balance and currency through the related account attribute -->
+                    <!-- Transaction Details -->
+                    <strong class="d-block text-black"> Transaction ID: {{ transaction.id }}</strong>
                     Date of transaction: {{ transaction.date }}
                     <br>
                     Type of transaction: {{ transaction.transaction_type }}
@@ -48,7 +50,7 @@
                 </p>
             </div>
         {% endfor %}
-        <small class="d-block text-end mt-3">
+        <small class="d-block mt-3">
             <a href="#">All updates</a>
         </small>
     </div>

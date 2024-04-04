@@ -3,30 +3,42 @@
 {% block title %}Welcome to Member's Home Page - PalsPay{% endblock %}
 
 {% block content %}
-
+    {% csrf_token %}
     <h1>Welcome, {{ user.username }}</h1>
     <p>Account Balance: {{ account_balance }} {{ account_currency }}</p>
     <p>Email: {{ user.email }}</p>
-    <p>
-        <a href="{% url 'transfer-money' %}">Send Money</a>
-    </p>
-    <p>
-        <a href="{% url 'request-money' %}">Request Money</a>
-    </p>
-    <p>
-        <a href="{% url 'manage-requests' %}">Manage Requests</a>
-    </p>
+    <div class="d-flex justify-content-between">
+        <form method="get" action="{% url 'transfer-money' %}" class="flex-grow-1">
+            <button class="btn btn-outline-secondary rounded-pill w-100" type="submit" style="padding: 8px 40px; font-size: 20px;">Send Money</button>
+        </form>
+    
+        <form method="get" action="{% url 'request-money' %}" class="flex-grow-1 mx-2">
+            <button class="btn btn-outline-secondary rounded-pill w-100" type="submit" style="padding: 8px 40px; font-size: 20px;">Request Money</button>
+        </form>
+    
+        <form method="get" action="{% url 'manage-requests' %}" class="flex-grow-1">
+            <button class="btn btn-outline-secondary rounded-pill w-100" type="submit" style="padding: 8px 40px; font-size: 20px;">Manage Requests</button>
+        </form>
+    </div>
 
-    {% for transaction in transactions %}
-    <tr>
-        <td>{{ transaction.date }}</td>
-        <td>{{ transaction.amount }}</td>
-        <td>{{ transaction.transaction_type }}</td>
-        <td>{{ transaction.description }}</td>
-    </tr>
-    {% empty %}
-    <tr>
-        <td colspan="4">No transactions found.</td>
-    </tr>
-    {% endfor %}
+
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <h6 class="border-bottom pb-2 mb-0 text-center">Your Transaction History</h6>
+        {% for transaction in transactions %}
+            <div class="d-flex text-body-secondary pt-3 justify-content-center">
+                <p class="pb-3 mb-0 small lh-sm border-bottom text-center">
+                    <!-- Access the balance and currency through the related account attribute -->
+                    Date of transaction: {{ transaction.date }}
+                    <br>
+                    Amount: {{ transaction.amount }}
+                    <br>
+                    Description: {{ transaction.description }}
+                </p>
+            </div>
+        {% endfor %}
+        <small class="d-block text-end mt-3">
+            <a href="#">All updates</a>
+        </small>
+    </div>
+    
 {% endblock %}

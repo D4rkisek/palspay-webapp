@@ -2,10 +2,13 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User, Group
+from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth.hashers import make_password
 from .models import Customer
 import requests
 
 
+@csrf_protect
 def register_customer(request):
     if request.method == "POST":
         # Extracting form data
@@ -25,12 +28,12 @@ def register_customer(request):
             return redirect('register-customer')
 
         # Creating the user
-        user = User.objects.create_user(
+        user = User.objects.create(
             username=username,
             first_name=first_name,
             last_name=last_name,
             email=email,
-            password=password
+            password=make_password(password)  # Hash the pwd
         )
 
         # Fetching the "Customers" group and adding the user
@@ -60,6 +63,7 @@ def register_customer(request):
     return render(request, 'register/register.html')
 
 
+@csrf_protect
 def login_user(request):
     # If user submits the form on the website
     if request.method == "POST":
@@ -73,7 +77,7 @@ def login_user(request):
                 return redirect('staff-homepage')  # Redirect to staff home page
             # Check if the user is in the Customers group
             elif user.groups.filter(name='Customers').exists():
-                return redirect('members-homepage')  # Redirect to members (customers) home page
+                return redirect('customer-homepage')  # Redirect to members (customers) home page
         else:
             messages.error(request, "There was an error, please try again.")
             return redirect('login-user')
