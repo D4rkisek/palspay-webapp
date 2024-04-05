@@ -79,7 +79,7 @@ def login_user(request):
             elif user.groups.filter(name='Customers').exists():
                 return redirect('customer-homepage')  # Redirect to members (customers) home page
         else:
-            messages.error(request, "There was an error, please try again.")
+            messages.error(request, "There was an error. Please try again.")
             return redirect('login-user')
 
     return render(request, 'register/login.html', {})
