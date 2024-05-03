@@ -5,10 +5,10 @@ from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name="home-page"),
-    path('', include('staff.urls')),
-    path('', include('register.urls')),
-    path('', include('customers.urls')),
-    path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
+    path('webapps2024/', views.home, name="home-page"),
+    path('webapps2024/', include('staff.urls')),
+    path('webapps2024/', include('register.urls')),
+    path('webapps2024/', include('customers.urls')),
+    path('logout/', LogoutView.as_view(next_page='/webapps2024/'), name='logout'),
     path('conversion/', include('conversion_api.urls')),
 ]

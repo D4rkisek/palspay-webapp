@@ -19,15 +19,15 @@
                 <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
             </svg>
             <nav class="nav nav-masthead justify-content-center float-md-end">
-                <a class="nav-link active" aria-current="page" href="/">Home</a>
+                <a class="nav-link active" aria-current="page" href="/webapps2024/">Home</a>
                 <a class="nav-link active">
                     {% if user.is_authenticated %}
                         <span class="navbar-text">Logged in as {{user.username}} | </span>
                         <a class="nav-link active" href="{% url 'logout' %}">Logout</a>
-                        <a class="nav-link active" href="/customer/">Account</a>
+                        <a class="nav-link active" href="/webapps2024/customer/">Account</a>
                     {% else %}
-                        <a class="nav-link active" href="/loginuser/">Login</a>
-                        <a class="nav-link active" href="/registercustomer/">Register</a>
+                        <a class="nav-link active" href="/webapps2024/loginuser/">Login</a>
+                        <a class="nav-link active" href="/webapps2024/registercustomer/">Register</a>
                     {% endif %}
                 </a>
             </nav>

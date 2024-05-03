@@ -24,6 +24,10 @@ def transfer_money(request):
                     sender_account = Customer.objects.get(user=request.user)
                     recipient_account = Customer.objects.get(user__username=recipient_username)
 
+                    if sender_account == recipient_account:
+                        messages.error(request, 'Cannot send money to yourself.')
+                        return redirect('transfer-money')
+
                     if sender_account.balance < amount:
                         messages.error(request, 'Insufficient funds.')
                         return redirect('transfer-money')
